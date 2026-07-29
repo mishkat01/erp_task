@@ -138,7 +138,7 @@ dispatch(new LogPageView($page));
 
 Correct (runs after response, same process):
 ```php
-defer(fn () => PageView::create(['page_id' => $page->id, 'user_id' => auth()->id()]));
+defer(fn () => PageView::create(['page_id' => $page->id, 'employee_id' => auth()->id()]));
 ```
 
 Use jobs when the work must survive process crashes or needs retry logic. Use `defer()` for fire-and-forget work.

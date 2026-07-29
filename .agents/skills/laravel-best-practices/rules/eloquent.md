@@ -12,7 +12,7 @@ public function comments(): HasMany
 
 public function author(): BelongsTo
 {
-    return $this->belongsTo(User::class, 'user_id');
+    return $this->belongsTo(User::class, 'employee_id');
 }
 ```
 
@@ -112,7 +112,7 @@ Cleaner than manually specifying foreign keys.
 
 Incorrect:
 ```php
-Post::where('user_id', $user->id)->get();
+Post::where('employee_id', $user->id)->get();
 ```
 
 Correct:

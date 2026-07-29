@@ -20,7 +20,7 @@ php artisan make:migration add_slug_to_posts_table
 Automatic naming and referential integrity.
 
 ```php
-$table->foreignId('user_id')->constrained()->cascadeOnDelete();
+$table->foreignId('employee_id')->constrained()->cascadeOnDelete();
 
 // Non-standard names
 $table->foreignId('author_id')->constrained('users');
@@ -52,7 +52,7 @@ Incorrect:
 ```php
 Schema::create('orders', function (Blueprint $table) {
     $table->id();
-    $table->foreignId('user_id')->constrained();
+    $table->foreignId('employee_id')->constrained();
     $table->string('status');
     $table->timestamps();
 });
@@ -62,7 +62,7 @@ Correct:
 ```php
 Schema::create('orders', function (Blueprint $table) {
     $table->id();
-    $table->foreignId('user_id')->constrained()->index();
+    $table->foreignId('employee_id')->constrained()->index();
     $table->string('status')->index();
     $table->timestamp('shipped_at')->nullable()->index();
     $table->timestamps();

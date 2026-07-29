@@ -24,7 +24,7 @@ Constrain eager loads to select only needed columns (always include the foreign 
 
 ```php
 $users = User::with(['posts' => function ($query) {
-    $query->select('id', 'user_id', 'title')
+    $query->select('id', 'employee_id', 'title')
           ->where('published', true)
           ->latest()
           ->limit(10);
@@ -55,7 +55,7 @@ $posts = Post::with('author')->get();
 
 Correct:
 ```php
-$posts = Post::select('id', 'title', 'user_id', 'created_at')
+$posts = Post::select('id', 'title', 'employee_id', 'created_at')
     ->with(['author:id,name,avatar'])
     ->get();
 ```
@@ -99,7 +99,7 @@ Incorrect:
 ```php
 Schema::create('orders', function (Blueprint $table) {
     $table->id();
-    $table->foreignId('user_id')->constrained();
+    $table->foreignId('employee_id')->constrained();
     $table->string('status');
     $table->timestamps();
 });
@@ -109,7 +109,7 @@ Correct:
 ```php
 Schema::create('orders', function (Blueprint $table) {
     $table->id();
-    $table->foreignId('user_id')->index()->constrained();
+    $table->foreignId('employee_id')->index()->constrained();
     $table->string('status')->index();
     $table->timestamps();
     $table->index(['status', 'created_at']);
