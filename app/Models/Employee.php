@@ -7,10 +7,11 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['name', 'email', 'password', 'role', 'department_id'])]
 #[Hidden(['password', 'remember_token'])]
 class Employee extends Authenticatable
 {
@@ -32,5 +33,17 @@ class Employee extends Authenticatable
       public function purchaseRequisition(): HasMany
     {
         return $this->hasMany(PurchaseRequisition::class);
+    }
+
+    /**
+     * Get the name of the dashboard route for the user's role.
+     */
+    public function dashboardRouteName(): string
+    {
+        return match ($this->role) {
+            'procurement' => 'procurement-dashboard',
+            'manager' => 'manager-dashboard',
+            default => 'dashboard',
+        };
     }
 }

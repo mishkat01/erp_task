@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();
+            $table->enum('role', ['employee', 'procurement', 'manager'])->default('employee');
             $table->timestamps();
 
             //realtional column start

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Department;
 use App\Models\Employee;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -20,7 +21,8 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $departments = Department::all();
+        return view('auth.register', compact('departments'));
     }
 
     /**
@@ -30,15 +32,26 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
+        $rules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.Employee::class],
+            'role' => ['required', 'string', 'in:employee,procurement,manager'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+        ];
+
+        if ($request->role === 'employee') {
+            $rules['department_id'] = ['required', 'exists:departments,id'];
+        } else {
+            $rules['department_id'] = ['nullable', 'exists:departments,id'];
+        }
+
+        $request->validate($rules);
 
         $user = Employee::create([
             'name' => $request->name,
             'email' => $request->email,
+            'role' => $request->role,
+            'department_id' => $request->department_id ?? null,
             'password' => Hash::make($request->password),
         ]);
 
@@ -46,6 +59,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route($user->dashboardRouteName(), absolute: false));
     }
 }

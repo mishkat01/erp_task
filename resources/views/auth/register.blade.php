@@ -16,6 +16,49 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
+        <!-- Role -->
+        <div class="mt-4">
+            <x-input-label for="role" :value="__('Role')" />
+            <select id="role" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" name="role" required>
+                <option value="">{{ __('Select a role') }}</option>
+                <option value="employee" {{ old('role') === 'employee' ? 'selected' : '' }}>{{ __('Employee') }}</option>
+                <option value="procurement" {{ old('role') === 'procurement' ? 'selected' : '' }}>{{ __('Procurement') }}</option>
+                <option value="manager" {{ old('role') === 'manager' ? 'selected' : '' }}>{{ __('Manager') }}</option>
+            </select>
+            <x-input-error :messages="$errors->get('role')" class="mt-2" />
+        </div>
+
+        <!-- Department (Only for Employees) -->
+        <div class="mt-4" id="department-container" style="display: {{ old('role') === 'employee' ? 'block' : 'none' }};">
+            <x-input-label for="department_id" :value="__('Department')" />
+            <select id="department_id" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" name="department_id" {{ old('role') === 'employee' ? 'required' : '' }}>
+                <option value="">{{ __('Select a department') }}</option>
+                @foreach($departments as $department)
+                    <option value="{{ $department->id }}" {{ old('department_id') == $department->id ? 'selected' : '' }}>
+                        {{ $department->name }}
+                    </option>
+                @endforeach
+            </select>
+            <x-input-error :messages="$errors->get('department_id')" class="mt-2" />
+        </div>
+
+        <script>
+            const roleSelect = document.getElementById('role');
+            const departmentContainer = document.getElementById('department-container');
+            const departmentSelect = document.getElementById('department_id');
+
+            roleSelect.addEventListener('change', function() {
+                if (this.value === 'employee') {
+                    departmentContainer.style.display = 'block';
+                    departmentSelect.setAttribute('required', 'required');
+                } else {
+                    departmentContainer.style.display = 'none';
+                    departmentSelect.removeAttribute('required');
+                    departmentSelect.value = '';
+                }
+            });
+        </script>
+
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
