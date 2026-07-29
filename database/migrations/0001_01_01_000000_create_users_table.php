@@ -19,7 +19,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
 
-            //realtional colum start
+            //realtional column start
              $table->foreignId('department_id')->nullable()->index();
         });
 

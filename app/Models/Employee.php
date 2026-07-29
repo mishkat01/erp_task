@@ -28,4 +28,9 @@ class Employee extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+      public function purchaseRequisition(): HasMany
+    {
+        return $this->hasMany(PurchaseRequisition::class);
+    }
 }

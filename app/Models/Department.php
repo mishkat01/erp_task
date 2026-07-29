@@ -14,4 +14,9 @@ class Department extends Model
         return $this->hasMany(Employee::class);
     }
 
+       public function purchaseRequisition(): HasMany
+    {
+        return $this->hasMany(PurchaseRequisition::class);
+    }
+
 }
