@@ -84,7 +84,7 @@ A role-based procurement ERP built with Laravel, Bootstrap, and Alpine.js. Emplo
    ```bash
    php artisan migrate --seed
    ```
-   This creates all tables and seeds the department list (needed by the registration form) plus a default test employee.
+   This creates all tables and seeds departments, a batch of demo products, and one demo login for each role (see [Demo Credentials](#demo-credentials) below).
 
 7. **Build frontend assets**
    ```bash
@@ -98,14 +98,24 @@ A role-based procurement ERP built with Laravel, Bootstrap, and Alpine.js. Emplo
    ```
    Visit `http://localhost:8000`. (If you're running this under XAMPP/Apache instead, point your vhost at the `public/` directory and skip this step.)
 
+## Demo Credentials
+
+`php artisan migrate --seed` creates one login per role (password is the same for all three: **`password`**), so you can log in and test every panel right away:
+
+| Role         | Email                    | Password   |
+|--------------|--------------------------|------------|
+| Employee     | `employee@demo.test`     | `password` |
+| Procurement  | `procurement@demo.test`  | `password` |
+| Manager      | `manager@demo.test`      | `password` |
+
+Each account is redirected to its own dashboard on login and can only access the routes for that role. You can also register new accounts at `/register` and pick a **Role** (Employee, Procurement, or Manager) — Employees also select a Department.
+
 ## Getting Started
 
-Register at `/register` and pick a **Role** (Employee, Procurement, or Manager). Employees also select a Department. Each role is redirected to its own dashboard and can only access the routes for that role.
-
-A typical flow to try out:
-1. Register as **Procurement** → add a Product and a Supplier.
-2. Register as **Employee** → submit a requisition against that product.
-3. Register as **Manager** → approve (or reject) the requisition.
+A demo `Product` catalog is already seeded, so you can try the full flow right away:
+1. Log in as **Procurement** (`procurement@demo.test`) → add a Supplier (Suppliers page). Products already exist from the seeder.
+2. Log in as **Employee** (`employee@demo.test`) → submit a requisition against one of the seeded products.
+3. Log in as **Manager** (`manager@demo.test`) → approve (or reject) the requisition.
 4. Back in the **Procurement** account → create a Purchase Order from the approved requisition.
 
 ## Running Tests

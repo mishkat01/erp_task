@@ -14,14 +14,11 @@
                             <h5 class="card-title mb-3">
                                 Profile Information
                             </h5>
-                            <p class="card-text">
+                            <p class="card-text mb-0">
                                 <strong>Name:</strong> {{ Auth::user()->name }}<br>
                                 <strong>Email:</strong> {{ Auth::user()->email }}<br>
                                 <strong>Department:</strong> {{ Auth::user()->department->name ?? 'Not Assigned' }}
                             </p>
-                        </div>
-                        <div class="card-footer bg-transparent">
-                            <a href="{{ route('profile.edit') }}" class="btn btn-sm btn-primary">Edit Profile</a>
                         </div>
                     </div>
                 </div>
