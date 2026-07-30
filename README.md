@@ -1,58 +1,117 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# ERP Task — Procurement Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A role-based procurement ERP built with Laravel, Bootstrap, and Alpine.js. Employees raise purchase requisitions, managers approve or reject them, and the procurement team manages the product/supplier catalog and converts approved requisitions into purchase orders.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Employee Panel**
+- Submit purchase requisitions with multiple line items
+- Track the status of submitted requisitions (Pending / Approved / Rejected)
+- Edit or delete a requisition while it is still pending
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Manager Panel**
+- Review pending requisitions
+- Approve or reject requisitions (rejection requires a reason)
+- Approved requisitions become locked — no further edits or deletion
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**Procurement Panel**
+- Dashboard: total products, total suppliers, pending PR count, approved PR count
+- Product CRUD (SKU, name, unit, current stock)
+- Supplier CRUD (name, phone, email, address)
+- Create a Purchase Order from any approved requisition
+- Search requisitions by PR number, employee, or department; filter by status
+- PR list and PO list reports
 
-## Learning Laravel
+**Core rules enforced**
+- Auto-generated PR numbers (`PR-00001`) and PO numbers (`PO-00001`)
+- No duplicate products within a single requisition
+- Quantity must be greater than zero
+- Requisitions and purchase orders are created inside database transactions
+- Purchase orders can only be created from an approved requisition
+- Role-based access — each panel is only reachable by its own role
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Tech Stack
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- PHP 8.3+ / Laravel 13
+- MySQL
+- Bootstrap 5 + Alpine.js
+- Vite
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## Requirements
 
-## Agentic Development
+- PHP >= 8.3 with the extensions Laravel needs (`pdo_mysql`, `mbstring`, `openssl`, `tokenizer`, `xml`, `ctype`, `json`, `bcmath`)
+- Composer
+- Node.js >= 18 and npm
+- MySQL (or MariaDB, e.g. via XAMPP)
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <your-repo-url>
+   cd erp_task
+   ```
+
+2. **Install PHP dependencies**
+   ```bash
+   composer install
+   ```
+
+3. **Install frontend dependencies**
+   ```bash
+   npm install
+   ```
+
+4. **Create your environment file**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+5. **Configure the database**
+
+   Create an empty database (e.g. `erp_task`), then update `.env` if your credentials differ from the defaults:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=erp_task
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+
+6. **Run migrations and seed reference data**
+   ```bash
+   php artisan migrate --seed
+   ```
+   This creates all tables and seeds the department list (needed by the registration form) plus a default test employee.
+
+7. **Build frontend assets**
+   ```bash
+   npm run build
+   ```
+   For active development, use `npm run dev` in a separate terminal instead — it watches and hot-reloads assets.
+
+8. **Serve the application**
+   ```bash
+   php artisan serve
+   ```
+   Visit `http://localhost:8000`. (If you're running this under XAMPP/Apache instead, point your vhost at the `public/` directory and skip this step.)
+
+## Getting Started
+
+Register at `/register` and pick a **Role** (Employee, Procurement, or Manager). Employees also select a Department. Each role is redirected to its own dashboard and can only access the routes for that role.
+
+A typical flow to try out:
+1. Register as **Procurement** → add a Product and a Supplier.
+2. Register as **Employee** → submit a requisition against that product.
+3. Register as **Manager** → approve (or reject) the requisition.
+4. Back in the **Procurement** account → create a Purchase Order from the approved requisition.
+
+## Running Tests
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+php artisan test
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Tests run against an in-memory SQLite database (configured in `phpunit.xml`) and do not touch your local MySQL data.
