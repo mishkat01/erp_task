@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('purchase_requisitions', function (Blueprint $table) {
             $table->id();
-            $table->string('requisition_no');
-            $table->foreignId('employee_id')->nullable()->index();
-            $table->foreignId('department_id')->nullable()->index();
-            $table->integer('status');
+            $table->string('requisition_no')->nullable()->unique();
+            $table->foreignId('employee_id')->nullable()->index()->constrained('employees')->nullOnDelete();
+            $table->foreignId('department_id')->nullable()->index()->constrained('departments')->nullOnDelete();
+            $table->string('status')->default('pending');
+            $table->foreignId('approved_by')->nullable()->constrained('employees')->nullOnDelete();
+            $table->timestamp('approved_at')->nullable();
+            $table->string('rejection_reason')->nullable();
             $table->timestamps();
         });
     }

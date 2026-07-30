@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('requisition_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('requisition_id')->nullable()->index();
-            $table->foreignId('product_id')->nullable()->index();
+            $table->foreignId('requisition_id')->nullable()->index()->constrained('purchase_requisitions')->cascadeOnDelete();
+            $table->foreignId('product_id')->nullable()->index()->constrained('products')->restrictOnDelete();
             $table->integer('quantity');
-            $table->string('remarks');
+            $table->string('remarks')->nullable();
             $table->timestamps();
+
+            $table->unique(['requisition_id', 'product_id']);
         });
     }
 

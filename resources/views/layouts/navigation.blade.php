@@ -15,6 +15,33 @@
                     <x-nav-link :href="route(Auth::user()->dashboardRouteName())" :active="request()->routeIs(Auth::user()->dashboardRouteName())">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    @if (Auth::user()->role === 'employee')
+                        <x-nav-link :href="route('requisitions.index')" :active="request()->routeIs('requisitions.*')">
+                            {{ __('My Requisitions') }}
+                        </x-nav-link>
+                    @endif
+
+                    @if (Auth::user()->role === 'manager')
+                        <x-nav-link :href="route('requisitions.index')" :active="request()->routeIs('requisitions.*')">
+                            {{ __('Requisitions') }}
+                        </x-nav-link>
+                    @endif
+
+                    @if (Auth::user()->role === 'procurement')
+                        <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
+                            {{ __('Products') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('suppliers.index')" :active="request()->routeIs('suppliers.*')">
+                            {{ __('Suppliers') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('requisitions.index')" :active="request()->routeIs('requisitions.*')">
+                            {{ __('Requisitions') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('purchase-orders.index')" :active="request()->routeIs('purchase-orders.*')">
+                            {{ __('Purchase Orders') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -70,6 +97,27 @@
             <x-responsive-nav-link :href="route(Auth::user()->dashboardRouteName())" :active="request()->routeIs(Auth::user()->dashboardRouteName())">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            @if (in_array(Auth::user()->role, ['employee', 'manager']))
+                <x-responsive-nav-link :href="route('requisitions.index')" :active="request()->routeIs('requisitions.*')">
+                    {{ __('Requisitions') }}
+                </x-responsive-nav-link>
+            @endif
+
+            @if (Auth::user()->role === 'procurement')
+                <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
+                    {{ __('Products') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('suppliers.index')" :active="request()->routeIs('suppliers.*')">
+                    {{ __('Suppliers') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('requisitions.index')" :active="request()->routeIs('requisitions.*')">
+                    {{ __('Requisitions') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('purchase-orders.index')" :active="request()->routeIs('purchase-orders.*')">
+                    {{ __('Purchase Orders') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

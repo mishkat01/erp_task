@@ -8,61 +8,51 @@
     <div class="py-5">
         <div class="container">
             <div class="row">
-                <!-- Card 1: Team Overview -->
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title mb-3">
-                                👥 Team Overview
-                            </h5>
-                            <p class="card-text">
-                                <strong>Total Employees:</strong> 24<br>
-                                <strong>Present Today:</strong> 22<br>
-                                <strong>On Leave:</strong> 2
-                            </p>
+                        <div class="card-body text-center">
+                            <div class="text-muted small mb-1">Pending Approval</div>
+                            <div class="display-6 text-warning">{{ $stats['pending'] }}</div>
                         </div>
-                        <div class="card-footer bg-transparent">
-                            <a href="#" class="btn btn-sm btn-primary">View Team</a>
+                        <div class="card-footer bg-transparent text-center">
+                            <a href="{{ route('requisitions.index', ['status' => 'pending']) }}" class="btn btn-sm btn-warning">Review Now</a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 2: Performance Metrics -->
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title mb-3">
-                                📈 Performance Metrics
-                            </h5>
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span>Tasks Completed</span>
-                                    <span class="badge bg-success">89%</span>
-                                </div>
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span>Projects On Track</span>
-                                    <span class="badge bg-primary">95%</span>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <span>Team Satisfaction</span>
-                                    <span class="badge bg-info">4.2/5</span>
-                                </div>
-                            </div>
+                        <div class="card-body text-center">
+                            <div class="text-muted small mb-1">Approved</div>
+                            <div class="display-6 text-success">{{ $stats['approved'] }}</div>
+                        </div>
+                        <div class="card-footer bg-transparent text-center">
+                            <a href="{{ route('requisitions.index', ['status' => 'approved']) }}" class="btn btn-sm btn-outline-success">View</a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 3: Manager Actions -->
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <div class="text-muted small mb-1">Rejected</div>
+                            <div class="display-6 text-danger">{{ $stats['rejected'] }}</div>
+                        </div>
+                        <div class="card-footer bg-transparent text-center">
+                            <a href="{{ route('requisitions.index', ['status' => 'rejected']) }}" class="btn btn-sm btn-outline-danger">View</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 shadow-sm">
                         <div class="card-body">
-                            <h5 class="card-title mb-3">
-                                ⚡ Quick Actions
-                            </h5>
+                            <h5 class="card-title mb-3">Quick Actions</h5>
                             <div class="d-grid gap-2">
-                                <button class="btn btn-primary" type="button">📋 Assign Tasks</button>
-                                <button class="btn btn-success" type="button">📊 View Reports</button>
-                                <button class="btn btn-info" type="button">💬 Team Chat</button>
+                                <a href="{{ route('requisitions.index') }}" class="btn btn-primary">All Requisitions</a>
+                                <a href="{{ route('requisitions.index', ['status' => 'pending']) }}" class="btn btn-warning">Pending Approvals</a>
                             </div>
                         </div>
                     </div>

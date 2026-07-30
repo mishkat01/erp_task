@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('purchase_orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('requisition_id')->nullable()->index();
-            $table->foreignId('supplier_id')->nullable()->index();
-            $table->string('po_no');
-            $table->string('order_date');
+            $table->string('po_no')->nullable()->unique();
+            $table->foreignId('requisition_id')->nullable()->unique()->constrained('purchase_requisitions')->restrictOnDelete();
+            $table->foreignId('supplier_id')->nullable()->index()->constrained('suppliers')->restrictOnDelete();
+            $table->date('order_date');
+            $table->foreignId('created_by')->nullable()->constrained('employees')->nullOnDelete();
             $table->timestamps();
         });
     }

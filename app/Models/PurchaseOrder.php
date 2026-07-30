@@ -3,16 +3,31 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PurchaseOrder extends Model
 {
-       public function requisitionItem(): HasMany
+    protected $fillable = ['po_no', 'requisition_id', 'supplier_id', 'order_date', 'created_by'];
+
+    protected function casts(): array
     {
-        return $this->hasMany(RequisitionItem::class);
+        return [
+            'order_date' => 'date',
+        ];
     }
 
-       public function supplier(): HasMany
+    public function requisition(): BelongsTo
     {
-        return $this->hasMany(Supplier::class);
+        return $this->belongsTo(PurchaseRequisition::class, 'requisition_id');
+    }
+
+    public function supplier(): BelongsTo
+    {
+        return $this->belongsTo(Supplier::class);
+    }
+
+    public function createdBy(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class, 'created_by');
     }
 }

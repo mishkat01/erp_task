@@ -8,61 +8,76 @@
     <div class="py-5">
         <div class="container">
             <div class="row">
-                <!-- Card 1: Purchase Orders -->
-                <div class="col-md-4 mb-4">
+                <div class="col-md-3 mb-4">
                     <div class="card h-100 shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title mb-3">
-                                📦 Purchase Orders
-                            </h5>
-                            <p class="card-text">
-                                <strong>Total Orders:</strong> 45<br>
-                                <strong>Pending:</strong> 12<br>
-                                <strong>Delivered:</strong> 33
-                            </p>
+                        <div class="card-body text-center">
+                            <div class="text-muted small mb-1">Total Products</div>
+                            <div class="display-6">{{ $stats['products'] }}</div>
                         </div>
-                        <div class="card-footer bg-transparent">
-                            <a href="#" class="btn btn-sm btn-primary">View Orders</a>
+                        <div class="card-footer bg-transparent text-center">
+                            <a href="{{ route('products.index') }}" class="btn btn-sm btn-primary">Manage Products</a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 2: Suppliers -->
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <div class="text-muted small mb-1">Total Suppliers</div>
+                            <div class="display-6">{{ $stats['suppliers'] }}</div>
+                        </div>
+                        <div class="card-footer bg-transparent text-center">
+                            <a href="{{ route('suppliers.index') }}" class="btn btn-sm btn-primary">Manage Suppliers</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <div class="text-muted small mb-1">Pending PR</div>
+                            <div class="display-6 text-warning">{{ $stats['pending_pr'] }}</div>
+                        </div>
+                        <div class="card-footer bg-transparent text-center">
+                            <a href="{{ route('requisitions.index', ['status' => 'pending']) }}" class="btn btn-sm btn-outline-warning">View</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <div class="text-muted small mb-1">Approved PR</div>
+                            <div class="display-6 text-success">{{ $stats['approved_pr'] }}</div>
+                        </div>
+                        <div class="card-footer bg-transparent text-center">
+                            <a href="{{ route('requisitions.index', ['status' => 'approved']) }}" class="btn btn-sm btn-outline-success">View</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 shadow-sm">
                         <div class="card-body">
-                            <h5 class="card-title mb-3">
-                                🏢 Suppliers
-                            </h5>
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span>Active Suppliers</span>
-                                    <span class="badge bg-primary">18</span>
-                                </div>
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span>New Requests</span>
-                                    <span class="badge bg-warning">5</span>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <span>Verified</span>
-                                    <span class="badge bg-success">15</span>
-                                </div>
+                            <h5 class="card-title mb-3">Quick Actions</h5>
+                            <div class="d-grid gap-2">
+                                <a href="{{ route('purchase-orders.create') }}" class="btn btn-primary">New Purchase Order</a>
+                                <a href="{{ route('suppliers.create') }}" class="btn btn-success">Add Supplier</a>
+                                <a href="{{ route('products.create') }}" class="btn btn-info">Add Product</a>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 3: Procurement Actions -->
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 shadow-sm">
                         <div class="card-body">
-                            <h5 class="card-title mb-3">
-                                ⚡ Quick Actions
-                            </h5>
+                            <h5 class="card-title mb-3">Reports</h5>
                             <div class="d-grid gap-2">
-                                <button class="btn btn-primary" type="button">➕ New Purchase Order</button>
-                                <button class="btn btn-success" type="button">🏢 Manage Suppliers</button>
-                                <button class="btn btn-info" type="button">📊 Generate Report</button>
+                                <a href="{{ route('requisitions.index') }}" class="btn btn-outline-primary">PR List</a>
+                                <a href="{{ route('purchase-orders.index') }}" class="btn btn-outline-primary">PO List</a>
                             </div>
                         </div>
                     </div>
